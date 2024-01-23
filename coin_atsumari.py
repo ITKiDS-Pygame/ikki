@@ -64,7 +64,7 @@ def update():
     
 
     draw()
-    player.draw()
+    player.update()
     pygame.display.update()
     SURFACE.fill(BG)
 
