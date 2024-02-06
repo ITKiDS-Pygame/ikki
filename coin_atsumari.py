@@ -1,4 +1,5 @@
 import pygame
+import random
 
 SCREEN_W = 640
 SCREEN_H = 480
@@ -8,7 +9,12 @@ FPS = 60
 BG = (0, 0, 0)
 
 class Coin:
-    pass
+    def __init__(self,x,y):
+        self.color = (255,255,0)
+        self.rect = pygame.Rect(x,y,10,10)
+
+    def draw(self):
+        pygame.draw.rect(SURFACE, self.color, self.rect)
 
 class Player:
     def __init__(self):
@@ -44,22 +50,39 @@ class Player:
     def draw(self):
         pygame.draw.rect(SURFACE, self.color, self.rect)
 
-
+coin_list = []
 def get_coins(amount):
-    pass
+    for i in range(amount):
+        coin_list.append(Coin(random.randint(0, SCREEN_W - 10),random.randint(0,SCREEN_H - 10)))
+
+coin_count = 5
 
 
 player = Player()
 
 def draw():
+    for coin in coin_list:
+        coin.draw()
     player.draw()
 
 def update():
+    global coin_count
     CLOCK.tick(FPS)
     keys = pygame.key.get_pressed()
     for event in pygame.event.get():
         if event.type == pygame.QUIT or keys[pygame.K_ESCAPE]:
             exit(1)
+    
+    for coin in coin_list:
+        if player.rect.colliderect(coin.rect):
+            coin_list.remove(coin)
+
+    if len(coin_list) <= 0:
+        coin_count += 2
+        get_coins(coin_count)
+
+
+
 
     
 
@@ -69,6 +92,7 @@ def update():
     SURFACE.fill(BG)
 
 def run():
+    get_coins(coin_count)
     while True:
         update()
 
