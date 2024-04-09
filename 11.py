@@ -11,6 +11,7 @@ BLUE = (0,0,255)
 WHITE = (255,255,255)
 YELLOW = (255,255,0)
 current_color = BLUE
+speed = 5
 
 surface = pygame.display.set_mode(SCREEN)
 pygame.display.set_caption("しかく練習")
@@ -49,6 +50,24 @@ def update():
         current_color = WHITE
     if keys[pygame.K_g]:
         current_color = GREEN
+    if keys[pygame.K_RIGHT]:
+        myRect.x += speed
+    if keys[pygame.K_LEFT]:
+        myRect.x -= speed
+    if keys[pygame.K_UP]:
+        myRect.y -= speed
+    if keys[pygame.K_DOWN]:
+        myRect.y += speed
+
+    if myRect.x <= 0:
+        myRect.x = 0
+    if myRect.y <= 0:
+        myRect.y = 0
+    if myRect.x >= SCREEN_X - myRect.width:
+        myRect.x = SCREEN_X - myRect.width
+    if myRect.y >= SCREEN_Y - myRect.height:
+        myRect.y = SCREEN_Y - myRect.height
+
 
     draw()
 
